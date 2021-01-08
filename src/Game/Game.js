@@ -1,6 +1,5 @@
 import './Game.css';
 import Lettres from './Lettres/Lettres'
-import State from './State/State'
 import React, { Component } from 'react'
 
 class Game extends Component {
@@ -8,8 +7,17 @@ class Game extends Component {
     super(props);
     this.state = {
       word: this.generateWord(),
-      counter: 0
+      counter: 0,
+      tryNb: 8
     };
+  }
+
+  callbackCounter = (nb) => {
+    this.setState({counter: this.state.counter + nb})
+    if(this.state.counter == this.state.tryNb - 1) {
+      alert("Perdu")
+      window.location.reload();
+    }
   }
 
   generateWord() {
@@ -23,8 +31,8 @@ class Game extends Component {
       <div className="Game">
         <h1>Jeu du Pendu</h1>
         <p>{this.state.word}</p>
-        <Lettres></Lettres>
-        <State></State>
+        <Lettres counter = {this.callbackCounter}></Lettres>
+        <p>Il vous reste {this.state.tryNb - this.state.counter} essais</p>
       </div>
     );
   }

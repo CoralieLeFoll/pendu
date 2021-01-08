@@ -16,13 +16,13 @@ class Lettres extends Component {
   }
 
     submit() {
-    var error = ""
     if(this.isLetter(this.state.currentLetter)) {
         if(this.state.lettersList.includes(this.state.currentLetter)) {
             alert("Lettre déjà ajoutée")
         }
         else {
             this.setState({lettersList: [...this.state.lettersList, this.state.currentLetter]});
+            this.props.counter(1);
         }
     }
     else {
