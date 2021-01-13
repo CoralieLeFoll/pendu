@@ -8,16 +8,13 @@ class Game extends Component {
     this.state = {
       word: this.generateWord(),
       counter: 0,
-      tryNb: 8
+      tryNb: 8,
+      win: false
     };
   }
 
   callbackCounter = (nb) => {
     this.setState({counter: this.state.counter + nb})
-    if(this.state.counter == this.state.tryNb - 1) {
-      alert("Perdu")
-      window.location.reload();
-    }
   }
 
   generateWord() {
@@ -31,8 +28,13 @@ class Game extends Component {
       <div className="Game">
         <h1>Jeu du Pendu</h1>
         <p>{this.state.word}</p>
-        <Lettres counter = {this.callbackCounter}></Lettres>
+        <Lettres counter = {this.callbackCounter} word = {this.state.word}></Lettres>
         <p>Il vous reste {this.state.tryNb - this.state.counter} essais</p>
+        {this.state.tryNb - this.state.counter === 0 &&
+        <p>
+          {this.state.win ? "Gagné ! " : "Perdu ..."}
+        </p>
+      }
       </div>
     );
   }

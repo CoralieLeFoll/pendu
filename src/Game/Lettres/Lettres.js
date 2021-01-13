@@ -6,9 +6,18 @@ class Lettres extends Component {
     super(props);
     this.state = {
       currentLetter: "",
-      lettersList: []
+      lettersList: [],
+      lettersInWord: this.composeWord()
     };
     this.handleChange = this.handleChange.bind(this);
+  }
+
+  composeWord() {
+    var word = []
+    for (var i = 0; i < this.props.word.length; i++) {
+       word.push({letter: this.props.word[i], find: false})
+    }
+    return word
   }
 
   handleChange(event) {
@@ -19,6 +28,16 @@ class Lettres extends Component {
     if(this.isLetter(this.state.currentLetter)) {
         if(this.state.lettersList.includes(this.state.currentLetter)) {
             alert("Lettre déjà ajoutée")
+        }
+        else if(this.props.word.includes(this.state.currentLetter)) {
+          alert("Lettre trouvée !")
+          var lettersInWord = this.state.lettersInWord
+          lettersInWord.forEach(l => {
+            if(l.letter === this.state.currentLetter) {
+              l.find = true
+            }
+          });
+          this.setState({lettersInWord})
         }
         else {
             this.setState({lettersList: [...this.state.lettersList, this.state.currentLetter]});
