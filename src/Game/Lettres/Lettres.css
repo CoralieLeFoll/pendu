@@ -1,0 +1,19 @@
+.listOfLetters{
+    padding:5%
+}
+
+.listOfLetters ul{
+    padding:0;
+    margin:0;
+    list-style-type:none;
+}
+  
+.listOfLetters li{
+    display:block;
+    float:left;   
+    width:50px;
+    line-height:50px;
+    text-decoration:none;
+    text-align:center;
+    border:1px solid black;
+}

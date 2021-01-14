@@ -6,7 +6,7 @@ import {
   Link
 } from "react-router-dom";
 import Home from './Home'
-import Game from './Game/Game'
+import Game from './Game/Game.js'
 import Scores from './Scores/Scores'
 
 export default function App() {

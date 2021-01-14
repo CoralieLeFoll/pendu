@@ -24,6 +24,16 @@ class Lettres extends Component {
     this.setState({currentLetter: event.target.value});
   }
 
+  checkIfWin() {
+    const tabLetter = this.state.lettersInWord.filter(l => {return l.find == true})
+    if(tabLetter.length === this.state.lettersInWord.length) {
+      this.props.win(true)
+    }
+    else {
+      this.props.win(false)
+    }
+  }
+
     submit() {
     if(this.isLetter(this.state.currentLetter)) {
         if(this.state.lettersList.includes(this.state.currentLetter)) {
@@ -38,6 +48,8 @@ class Lettres extends Component {
             }
           });
           this.setState({lettersInWord})
+          this.setState({lettersList: [...this.state.lettersList, this.state.currentLetter]});
+          this.checkIfWin()
         }
         else {
             this.setState({lettersList: [...this.state.lettersList, this.state.currentLetter]});
@@ -60,12 +72,26 @@ class Lettres extends Component {
         <p> Lettre : </p>
         <input type="text" value={this.state.currentLetter} onChange={this.handleChange} />
         <button onClick={() => this.submit()}>Valider</button>
-      <p> Lettres ajoutées </p>  
-      <ul>
-      {this.state.lettersList.map(letter => {
-          return <li>{letter}</li>
-      })}
-      </ul>
+        <div className="listOfLetters">
+        <ul>
+        {
+          this.state.lettersInWord.map(l => {
+            if(l.find) {
+              return <li key={Math.random()}> {l.letter} </li>
+            }
+            else {
+              return <li key={Math.random()}> - </li>
+            }
+          })
+        }
+        </ul>
+        </div>
+        <p> Lettres ajoutées </p>  
+        <ul>
+        {this.state.lettersList.map(letter => {
+            return <li key={letter}>{letter}</li>
+        })}
+        </ul>
       </div>
     );
   }

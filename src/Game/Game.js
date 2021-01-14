@@ -1,5 +1,6 @@
 import './Game.css';
 import Lettres from './Lettres/Lettres'
+import Pendu from './Pendu/Pendu'
 import React, { Component } from 'react'
 
 class Game extends Component {
@@ -9,12 +10,17 @@ class Game extends Component {
       word: this.generateWord(),
       counter: 0,
       tryNb: 8,
-      win: false
+      win: false,
+      img: ""
     };
   }
 
   callbackCounter = (nb) => {
     this.setState({counter: this.state.counter + nb})
+  }
+
+  callbackWin = (win) => {
+    this.setState({win})
   }
 
   generateWord() {
@@ -28,13 +34,21 @@ class Game extends Component {
       <div className="Game">
         <h1>Jeu du Pendu</h1>
         <p>{this.state.word}</p>
-        <Lettres counter = {this.callbackCounter} word = {this.state.word}></Lettres>
+        {
+          this.state.counter > 0 &&
+          <Pendu counter = {this.state.counter}></Pendu>
+        }
+        <Lettres counter = {this.callbackCounter} word = {this.state.word} win = {this.callbackWin}></Lettres>
         <p>Il vous reste {this.state.tryNb - this.state.counter} essais</p>
         {this.state.tryNb - this.state.counter === 0 &&
-        <p>
-          {this.state.win ? "Gagné ! " : "Perdu ..."}
-        </p>
-      }
+          <p>
+            Perdu...
+          </p>
+        }
+        {this.state.win &&
+          <p>
+            Gagné ! 
+          </p>}
       </div>
     );
   }
