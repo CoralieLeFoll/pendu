@@ -1,5 +1,3 @@
-import './Pendu.css';
-
 function Pendu(props) {
     var img = require(`../../images/pendu${props.counter}.png`).default
     return (

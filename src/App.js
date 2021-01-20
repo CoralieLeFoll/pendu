@@ -1,35 +1,28 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import React, { Fragment } from "react";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import { Switch, Route, Link, BrowserRouter } from "react-router-dom";
+
 import Home from './Home'
 import Game from './Game/Game.js'
 import Scores from './Scores/Scores'
 
-export default function App() {
-  return (
-    <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/game">Jeu</Link>
-            </li>
-            <li>
-              <Link to="/scores">Scores</Link>
-            </li>
-          </ul>
-        </nav>
+function App() {
 
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-        <Switch>
+  return (
+    <BrowserRouter>
+      <div className="App">
+        <Route
+          path="/"
+          render={({ location }) => (
+            <Fragment>
+              <Tabs value={location.pathname}>
+                <Tab label="Home" value="home" component={Link} to={'/'} />
+                <Tab label="Game" value="game" component={Link} to={'/game'} />
+                <Tab label="Score" value="score" component={Link} to={'/scores'}
+                />
+              </Tabs>
+              <Switch>
           <Route path="/game">
             <Game />
           </Route>
@@ -40,7 +33,12 @@ export default function App() {
             <Home />
           </Route>
         </Switch>
+            </Fragment>
+          )}
+        />
       </div>
-    </Router>
+    </BrowserRouter>
   );
 }
+
+export default App;

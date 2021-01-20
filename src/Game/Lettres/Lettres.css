@@ -1,5 +1,5 @@
 .listOfLetters{
-    padding:5%
+    padding:2%
 }
 
 .listOfLetters ul{
@@ -9,11 +9,19 @@
 }
   
 .listOfLetters li{
-    display:block;
-    float:left;   
+    display:inline-block; 
     width:50px;
     line-height:50px;
     text-decoration:none;
     text-align:center;
-    border:1px solid black;
+    border:1px solid white;
+}
+
+.lettersAdded {
+    list-style-position: inside;
+}
+
+#standard-basic {
+    color: white;
+    border-color: white;
 }

@@ -1,5 +1,7 @@
 import './Lettres.css';
 import { useState, useEffect } from 'react';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 function Lettres(props) {
 
@@ -32,7 +34,6 @@ function Lettres(props) {
             alert("Lettre déjà ajoutée")
         }
         else if(props.word.includes(currentLetter)) {
-          alert("Lettre trouvée !")
           lettersInWord.forEach(l => {
             if(l.letter === currentLetter) {
               l.find = true
@@ -60,8 +61,8 @@ function Lettres(props) {
   return (
     <div className="Lettres">
       <p> Lettre : </p>
-      <input type="text" value={currentLetter} onChange={handleChange} />
-      <button onClick={() => submit(props)}>Valider</button>
+      <TextField id="standard-basic" value={currentLetter} onChange={handleChange} />
+      <Button variant="contained" color="primary" onClick={() => submit(props)}>Valider</Button>
       <div className="listOfLetters">
       <ul>
       {
@@ -76,12 +77,17 @@ function Lettres(props) {
         }
         </ul>
         </div>
-        <p> Lettres ajoutées </p>  
-        <ul>
-        {lettersList.map(letter => {
-            return <li key={letter}>{letter}</li>
-        })}
-        </ul>
+        {
+          lettersList.length > 0 &&
+          <div className="lettersAdded">
+            <h3> Lettres ajoutées </h3>  
+            <ul>
+            {lettersList.map(letter => {
+                return <li key={letter}>{letter}</li>
+            })}
+            </ul>
+          </div>
+        }
     </div>
   );
 }

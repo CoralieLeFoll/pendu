@@ -1,16 +1,18 @@
 import logo from './images/pendu.jpg';
 import './Home.css';
 import { useHistory } from "react-router-dom";
+import Button from '@material-ui/core/Button';
 
 function Home() {
   const history = useHistory();
   return (
     <div className="App">
       <header className="App-header">
+        <h1> Jeu du Pendu </h1>
         <img src={logo} className="App-logo" alt="logo" />
-        <button onClick={() => history.push('/game')}>
+        <Button variant="contained" color="primary" onClick={() => history.push('/game')}>
           Commencer une partie !
-        </button>
+        </Button>
       </header>
     </div>
   );

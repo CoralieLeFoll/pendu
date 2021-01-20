@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
 function Score() {
 
@@ -31,13 +34,21 @@ function Score() {
     return (
       <div className="Score">
         <h1>Scores</h1>
-        <ul>
-          {
+
+        <List component="nav" aria-label="Scores">
+        <ListItem>
+            <ListItemText primary="PSEUDO | "/>
+            <ListItemText primary="| SCORE" />
+          </ListItem>
+        {
             scores.map(score => {
-              return <li key={score.userId}>{score.pseudo} : {score.result}</li>
+              return <ListItem key={score.userId}>
+                <ListItemText primary={score.pseudo}/>
+                <ListItemText primary={score.result}/>
+                </ListItem>
             })
           }
-        </ul>
+      </List>
       </div>
     );
 }

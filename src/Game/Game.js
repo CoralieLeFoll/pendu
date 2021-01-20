@@ -4,6 +4,8 @@ import Pendu from './Pendu/Pendu'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 function Game() {
   const [word, setWord] = useState("");
@@ -56,25 +58,30 @@ function Game() {
   return (
     <div className="Game">
       <h1>Jeu du Pendu</h1>
-      <p>{word}</p>
+      <h2>{word}</h2>
       {
         counter > 0 &&
         <Pendu counter = {counter}></Pendu>
       }
-      <Lettres counter = {callbackCounter} word = {word.toLowerCase()} win = {callbackWin}></Lettres>
-      <p>Il vous reste {tryNb - counter} essais</p>
+      {tryNb - counter > 0 &&
+        <div>
+          <Lettres counter = {callbackCounter} word = {word.toLowerCase()} win = {callbackWin}></Lettres>
+          <p>Il vous reste {tryNb - counter} essais</p>
+        </div>
+      }
+
       {tryNb - counter === 0 &&
         <p>
           Perdu...
-          <button onClick={() => window.location.reload()}> Rejouer </button>
+          <Button variant="contained" color="primary" onClick={() => window.location.reload()}> Rejouer </Button>
         </p>
       }
       {win &&
         <p>
           Gagné avec {tryNb - counter} points ! 
           Pour enregistrer votre score, entrez votre pseudo : 
-          <input type="text" value={pseudo} onChange={handleChange} />
-          <button onClick={() => submit()}>Valider</button>
+          <TextField id="standard-basic" value={pseudo} onChange={handleChange}/>
+          <Button variant="contained" color="primary" onClick={() => submit()}>Valider</Button>
         </p>}
     </div>
   );
