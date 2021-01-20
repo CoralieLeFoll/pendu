@@ -1,100 +1,89 @@
 import './Lettres.css';
-import React, { Component } from 'react'
+import { useState, useEffect } from 'react';
 
-class Lettres extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentLetter: "",
-      lettersList: [],
-      lettersInWord: this.composeWord()
-    };
-    this.handleChange = this.handleChange.bind(this);
-  }
+function Lettres(props) {
 
-  composeWord() {
+  const [currentLetter, setCurrentLetter] = useState("");
+  const [lettersList, setLettersList] = useState([]);
+  const [lettersInWord, setLettersInWord] = useState([]);
+  const handleChange = event => setCurrentLetter(event.target.value);
+
+  useEffect(() => {
     var word = []
-    for (var i = 0; i < this.props.word.length; i++) {
-       word.push({letter: this.props.word[i], find: false})
+    for (var i = 0; i < props.word.length; i++) {
+       word.push({letter: props.word[i], find: false})
     }
-    return word
-  }
+    setLettersInWord(word)
+  }, [props.word]);
 
-  handleChange(event) {
-    this.setState({currentLetter: event.target.value});
-  }
-
-  checkIfWin() {
-    const tabLetter = this.state.lettersInWord.filter(l => {return l.find == true})
-    if(tabLetter.length === this.state.lettersInWord.length) {
-      this.props.win(true)
+  const checkIfWin = () => {
+    const tabLetter = lettersInWord.filter(l => {return l.find === true})
+    if(tabLetter.length === lettersInWord.length) {
+      props.win(true)
     }
     else {
-      this.props.win(false)
+      props.win(false)
     }
   }
 
-    submit() {
-    if(this.isLetter(this.state.currentLetter)) {
-        if(this.state.lettersList.includes(this.state.currentLetter)) {
+  const submit = (props) => {
+    if(isLetter(currentLetter)) {
+        if(lettersList.includes(currentLetter)) {
             alert("Lettre déjà ajoutée")
         }
-        else if(this.props.word.includes(this.state.currentLetter)) {
+        else if(props.word.includes(currentLetter)) {
           alert("Lettre trouvée !")
-          var lettersInWord = this.state.lettersInWord
           lettersInWord.forEach(l => {
-            if(l.letter === this.state.currentLetter) {
+            if(l.letter === currentLetter) {
               l.find = true
             }
           });
-          this.setState({lettersInWord})
-          this.setState({lettersList: [...this.state.lettersList, this.state.currentLetter]});
-          this.checkIfWin()
+          setLettersInWord(lettersInWord)
+          setLettersList([...lettersList, currentLetter]);
+          checkIfWin()
         }
         else {
-            this.setState({lettersList: [...this.state.lettersList, this.state.currentLetter]});
-            this.props.counter(1);
+          setLettersList([...lettersList, currentLetter]);
+          props.counter(1);
         }
     }
     else {
         alert("Veuillez entrer une lettre")
     }
-    this.setState({currentLetter: ""});
+    setCurrentLetter("");
   }
 
-  isLetter(str) {
+  const isLetter = (str) => {
     return str.length === 1 && str.match(/[a-z]/i);
   }
 
-  render() {
-    return (
-      <div className="Lettres">
-        <p> Lettre : </p>
-        <input type="text" value={this.state.currentLetter} onChange={this.handleChange} />
-        <button onClick={() => this.submit()}>Valider</button>
-        <div className="listOfLetters">
-        <ul>
-        {
-          this.state.lettersInWord.map(l => {
-            if(l.find) {
-              return <li key={Math.random()}> {l.letter} </li>
-            }
-            else {
-              return <li key={Math.random()}> - </li>
-            }
-          })
+  return (
+    <div className="Lettres">
+      <p> Lettre : </p>
+      <input type="text" value={currentLetter} onChange={handleChange} />
+      <button onClick={() => submit(props)}>Valider</button>
+      <div className="listOfLetters">
+      <ul>
+      {
+        lettersInWord.map(l => {
+          if(l.find) {
+            return <li key={Math.random()}> {l.letter} </li>
+          }
+          else {
+            return <li key={Math.random()}> - </li>
+          }
+        })
         }
         </ul>
         </div>
         <p> Lettres ajoutées </p>  
         <ul>
-        {this.state.lettersList.map(letter => {
+        {lettersList.map(letter => {
             return <li key={letter}>{letter}</li>
         })}
         </ul>
-      </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default Lettres;
